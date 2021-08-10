@@ -7,7 +7,7 @@
   <h2>Corona Portal</h2>
   <p>Find the latest data related to COVID-19 in Germany</p>
   <mat-form-field>
-    <mat-label>Weeks back from now  </mat-label>
+    <mat-label>Weeks back from now:  </mat-label>
     <mat-select  (selectionChange)="getData($event)">
       <mat-option *ngFor="let week of weeks" [(value)]="week.duration">
         {{week.label}}
