@@ -15,7 +15,7 @@ export class AppComponent {
   weekSelected!: number ;
   stateSelected!: string;
   states = states;
-  dataSelected = true;
+  dataSelected: boolean = true;
 
   weeks: any[] =[
     {label: "1 week", duration: 7}, 
@@ -35,9 +35,9 @@ export class AppComponent {
    }
    else {
     this.dataSelected=true;
-   this.getIncidentData();
-   this.getRecoveryData();
-   this.getDeathData();
+    this.getIncidentData();
+    this.getRecoveryData();
+    this.getDeathData();
    }
  }
 
