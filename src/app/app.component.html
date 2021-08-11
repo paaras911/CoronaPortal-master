@@ -1,22 +1,26 @@
-
-
-
-<div class="content" role="main">
-
-  
-  <h2>Corona Portal</h2>
+<div class="content">  
+  <h1>Corona Portal</h1>
   <p>Find the latest data related to COVID-19 in Germany</p>
   <mat-form-field>
     <mat-label>Weeks back from now:  </mat-label>
-    <mat-select  (selectionChange)="getData($event)">
-      <mat-option *ngFor="let week of weeks" [(value)]="week.duration">
+    <mat-select [(value)]="weekSelected">
+      <mat-option  *ngFor="let week of weeks" [value]="week.duration">
         {{week.label}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select a state in Germany:  </mat-label>
+    <mat-select [(value)]="stateSelected">
+      <mat-option *ngFor="let state of states" [value]="state.code">
+        {{state.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+ <div><button mat-flat-button (click)="getCovidData()">Show Results</button></div>
   </div>
   <app-data-view [statistics]="covidStats"></app-data-view>
-
+<mat-error *ngIf="!dataSelected">*Select values from dropdown</mat-error>
 
   
 

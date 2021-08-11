@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router'; 
 import { CovidDataModel } from './data-view/data-view.component';
 import { OrganizationService } from './data.service';
+import { states } from './states.data';
 
 @Component({
   selector: 'app-root',
@@ -11,56 +12,63 @@ import { OrganizationService } from './data.service';
 export class AppComponent {
   title = 'CoronaPortal';
   covidStats: CovidDataModel={incidents:'', recoveries:'', deaths:''};
-  weekNumber: number = 0;
+  weekSelected!: number ;
+  stateSelected!: string;
+  states = states;
+  dataSelected = true;
+
   weeks: any[] =[
     {label: "1 week", duration: 7}, 
     {label: "2 weeks", duration: 14},
     {label: "3 weeks", duration: 21},
     {label: "4 weeks", duration: 28}
   ];
-  
- constructor(private router:Router, private covidService:OrganizationService){
+ 
 
- }
 
- getData(number:any){
-   this.weekNumber = number.value;
+ constructor(private covidService:OrganizationService){}
+      
+
+ getCovidData(){
+   if(!this.weekSelected||!this.stateSelected){
+     this.dataSelected=false;
+   }
+   else {
+    this.dataSelected=true;
    this.getIncidentData();
    this.getRecoveryData();
    this.getDeathData();
-   
+   }
  }
 
   getIncidentData(){
     let totalCases = 0;
-    this.covidService.getCases(this.weekNumber).subscribe(stat =>{
-      stat.data.forEach(element => {
-           totalCases+=element.weekIncidence;
+    this.covidService.getCases(this.weekSelected,this.stateSelected).subscribe(stat =>{
+      stat.data[this.stateSelected].history.forEach((_cases:any) => {
+           totalCases+=_cases.cases;
       });
       this.covidStats.incidents=totalCases.toString();
-      console.log("totalCases"+totalCases);
     })
   }
 
   getRecoveryData(){
     let totalrecoveries = 0;
-    this.covidService.getRecovered(this.weekNumber).subscribe(stat =>{
-      stat.data.forEach(element => {
-        totalrecoveries+=element.recovered;
+    this.covidService.getRecovered(this.weekSelected,this.stateSelected).subscribe(stat =>{
+      stat.data[this.stateSelected].history.forEach((_cases:any) => {
+        totalrecoveries+=_cases.recovered;
       });
       this.covidStats.recoveries=totalrecoveries.toString();
-      console.log("totalrecoveries"+totalrecoveries);
     })
-  }
+}
 
   getDeathData(){
     let totaldeaths= 0;
-    this.covidService.getDeaths(this.weekNumber).subscribe(stat =>{
-      stat.data.forEach(element => {
-        totaldeaths+=element.deaths;
+    this.covidService.getDeaths(this.weekSelected,this.stateSelected).subscribe(stat =>{
+      stat.data[this.stateSelected].history.forEach((_cases:any) => {
+        totaldeaths+=_cases.deaths;
       });
       this.covidStats.deaths=totaldeaths.toString();
-      console.log("totaldeaths"+totaldeaths);
+    
     })
   }
 }

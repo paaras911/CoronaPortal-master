@@ -1,12 +1,11 @@
-import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     exports: [
-        MatTableModule,
-        MatSelectModule
-
+        MatSelectModule,
+        MatButtonModule
     ]
   })
 

@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CovidCasesData, CovidDeathData, CovidRecoveryData } from '../Models/data.model';
 
 export interface CovidDataModel {
  incidents: string;
@@ -15,13 +13,5 @@ export interface CovidDataModel {
 })
 export class DataViewComponent {
   @Input() statistics:CovidDataModel = {incidents:'', recoveries:'', deaths:''};
-  
-  public week!:number;
-
-  constructor(private route: ActivatedRoute){
-   
-  
-  }
-
 
 }
